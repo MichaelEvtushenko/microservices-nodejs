@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-depl
+spec:
+  selector:
+    matchLabels:
+      app: auth
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+        - name: auth-service-ctr
+          image: zovirax/auth-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-svc
+spec:
+  selector:
+    app: auth
+  type: ClusterIP
+  ports:
+    - port: 8000
+      targetPort: 3000
+
+

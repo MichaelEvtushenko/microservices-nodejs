@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: main-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /api/auth
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-svc
+                port:
+                  number: 8000
+          - path: /api/hello
+            pathType: Prefix
+            backend:
+              service:
+                name: hello-svc
+                port:
+                  number: 8001
