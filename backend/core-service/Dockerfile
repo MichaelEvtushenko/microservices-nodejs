@@ -3,7 +3,7 @@ ARG TAG=15.11.0-alpine3.10
 FROM node:$TAG as build
 WORKDIR /opt/build
 COPY package*.json ./
-RUN npm i
+RUN npm i --no-audit
 COPY ./ ./
 RUN npm run build
 
