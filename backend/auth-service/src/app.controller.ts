@@ -11,7 +11,7 @@ interface AppInfo {
   docs: string;
 }
 
-@Controller('tests')
+@Controller()
 export class AppController {
   @Get()
   getAppInfo(): AppInfo {

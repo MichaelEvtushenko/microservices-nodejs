@@ -6,17 +6,17 @@ spec:
   rules:
     - http:
         paths:
+          - path: /api/tests
+            pathType: Prefix
+            backend:
+              service:
+                name: core-svc
+                port:
+                  number: 8000
           - path: /api/auth
             pathType: Prefix
             backend:
               service:
                 name: auth-svc
-                port:
-                  number: 8000
-          - path: /api/hello
-            pathType: Prefix
-            backend:
-              service:
-                name: hello-svc
                 port:
                   number: 8001
