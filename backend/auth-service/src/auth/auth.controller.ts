@@ -1,28 +1,38 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post } from '@nestjs/common';
-import { ApiOkResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
-import { AuthDto } from './dto/auth.dto';
-import { LoginDto } from './dto/login.dto';
+import { Controller, Get } from '@nestjs/common';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
-@Controller('auth')
-@ApiTags('auth')
+@Controller('/api/auth')
+@ApiTags('Auth')
 export class AuthController {
 
-  @Post()
-  @ApiOkResponse({ description: 'Auth token generated.', type: AuthDto })
-  @ApiUnauthorizedResponse({ description: 'Auth token generation failed. Use admin credentials.' })
-  login(@Body() loginDto: LoginDto): AuthDto {
-    if (loginDto.username === 'istio' && loginDto.password === 'istio') {
-      return {
-        token: 'test-service-mesh-istio-token',
-      };
-    }
-    throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+  private lag: number = 0;
+
+  @Get('/token')
+  @ApiOkResponse({ description: 'Returns fake token.' })
+  async getByToken(): Promise<{ token: string, iat: Date }> {
+    this.lag && console.log(`sleeping for ${(this.lag)} ms...`);
+    await new Promise(resolve => setTimeout(() => resolve(null), this.lag));
+    return {
+      token: '🖐',
+      iat: new Date(),
+    };
   }
 
-  @Get()
-  getByToken() {
+  @Get('/break')
+  @ApiOkResponse({ description: 'Set lag time to 10 seconds.' })
+  breakApp(): { lag: number } {
+    this.lag = 10000; // 10s
     return {
-      date: new Date().toISOString(),
+      lag: this.lag,
+    };
+  }
+
+  @Get('/reset')
+  @ApiOkResponse({ description: 'Reset lag time to 0 seconds.' })
+  reset(): { lag: number } {
+    this.lag = 0;
+    return {
+      lag: this.lag,
     };
   }
 }

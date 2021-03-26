@@ -1,12 +1,12 @@
-import { TestEntity } from '../entity/test.entity';
+import { CoreEntity } from '../entity/core.entity';
 
-export class TestDto {
+export class CoreDto {
   readonly id: number;
   readonly title: string;
   readonly createdAt: Date;
   readonly updatedAt?: Date;
 
-  constructor(entity: TestEntity) {
+  constructor(entity: CoreEntity) {
     const {
       id,
       title,

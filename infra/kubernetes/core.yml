@@ -12,9 +12,10 @@ spec:
       labels:
         app: core
     spec:
+      terminationGracePeriodSeconds: 5
       containers:
         - name: core-service-ctr
-          image: zovirax/core-service:latest
+          image: zovirax/core-service
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
@@ -22,7 +23,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: core-svc
+  name: core-svc # DNS name
 spec:
   selector:
     app: core

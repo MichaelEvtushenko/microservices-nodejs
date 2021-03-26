@@ -4,7 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
-  app.setGlobalPrefix('/api');
+  // app.setGlobalPrefix('/api/auth')
 
   const config = new DocumentBuilder()
     .setTitle('Auth Microservice')
@@ -12,9 +12,9 @@ async function bootstrap() {
     .setVersion('0.1')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, document);
+  SwaggerModule.setup('/api/auth/api-docs', app, document);
 
-  await app.listen(3000);
+  await app.listen(3001);
 }
 
 bootstrap();

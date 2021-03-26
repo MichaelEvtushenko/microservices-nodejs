@@ -1,24 +1,25 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { TestEntity } from './entity/test.entity';
-import { CreateTestDto } from './dto/create-test.dto';
-import { TestDto } from './dto/test.dto';
-import { UpdateTestDto } from './dto/update-test.dto';
+import { CoreEntity } from './entity/core.entity';
+import { CreateCoreDto } from './dto/create-core.dto';
+import { CoreDto } from './dto/core.dto';
+import { UpdateCoreDto } from './dto/update-core.dto';
+import Axios, { AxiosResponse } from 'axios';
 
 @Injectable()
 export class CoreService {
-  private readonly items: TestEntity[];
+  private readonly items: CoreEntity[];
 
   constructor() {
     this.items = [];
   }
 
-  create(itemDto: CreateTestDto): TestDto {
+  create(itemDto: CreateCoreDto): CoreDto {
     const isTitleTaken = !!this.items.find(item => item.title === itemDto.title);
     if (isTitleTaken) {
-      throw new HttpException('Item\'s title has been already taken', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Item\'s title has already been existing', HttpStatus.BAD_REQUEST);
     }
 
-    const newEntity: TestEntity = {
+    const newEntity: CoreEntity = {
       id: this.items.length + 1, title: itemDto.title, createdAt: new Date(),
     };
 
@@ -27,7 +28,7 @@ export class CoreService {
     return newEntity;
   }
 
-  update(itemDto: UpdateTestDto): TestDto {
+  update(itemDto: UpdateCoreDto): CoreDto {
     const index = this.items.findIndex(item => item.id === itemDto.id);
     if (index < 0) {
       throw new HttpException('Item not found', HttpStatus.NOT_FOUND);
@@ -35,12 +36,24 @@ export class CoreService {
 
     this.items[index].title = itemDto.title;
 
-    return new TestDto(this.items[index]);
+    return new CoreDto(this.items[index]);
   }
 
-  findAll(): TestDto[] {
+  async findAll(): Promise<CoreDto[]> {
+    const axiosInstance = Axios.create({
+      baseURL: 'http://auth-svc:8001', // auth service ip inside cluster
+    });
+
+    try {
+      const resp: AxiosResponse = await axiosInstance.get('/api/auth/token');
+      console.log('GET /api/auth/token succeeded with response:', resp.data);
+    } catch (err) {
+      console.error('GET /api/auth/token FAILED with error message: ', err.message);
+      // throw new HttpException(err.message, 500);
+    }
+
     return this.items
-      .map(item => new TestDto(item));
+      .map(item => new CoreDto(item));
   }
 
   delete(id: number): void {

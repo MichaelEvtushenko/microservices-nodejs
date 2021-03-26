@@ -14,10 +14,10 @@ spec:
     spec:
       containers:
         - name: auth-service-ctr
-          image:  zovirax/auth-service:latest
-          imagePullPolicy: Always # IfNotPresent issue
+          image: zovirax/auth-service
+          imagePullPolicy: Always
           ports:
-            - containerPort: 3000
+            - containerPort: 3001
 ---
 apiVersion: v1
 kind: Service
@@ -29,6 +29,4 @@ spec:
   type: ClusterIP
   ports:
     - port: 8001
-      targetPort: 3000
-
-
+      targetPort: 3001

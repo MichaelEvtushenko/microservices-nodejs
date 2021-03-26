@@ -6,7 +6,7 @@ spec:
   rules:
     - http:
         paths:
-          - path: /api/tests
+          - path: /api/core
             pathType: Prefix
             backend:
               service:
