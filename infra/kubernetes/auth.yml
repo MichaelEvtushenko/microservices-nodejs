@@ -30,3 +30,16 @@ spec:
   ports:
     - port: 8001
       targetPort: 3001
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: auth-svc-dest-rule
+spec:
+  host: auth-svc
+  trafficPolicy:
+    outlierDetection:
+      consecutive5xxErrors: 1
+      interval: 5s
+      baseEjectionTime: 10s
+      maxEjectionPercent: 50
