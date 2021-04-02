@@ -32,6 +32,24 @@ spec:
       targetPort: 3001
 ---
 apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: auth-virtual-svc
+spec:
+  hosts:
+    - auth-svc
+  http:
+    - route:
+        - destination:
+            host: auth-svc
+      timeout: 3s # will throw a 504 error if the request hits the limit of 3s
+      retries:
+        attempts: 3
+        retryOn: 5xx
+        perTryTimeout: 3s
+#        retryRemoteLocalities: false
+---
+apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
   name: auth-svc-dest-rule
