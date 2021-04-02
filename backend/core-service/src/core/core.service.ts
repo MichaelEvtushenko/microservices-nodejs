@@ -44,12 +44,14 @@ export class CoreService {
       baseURL: 'http://auth-svc:8001', // auth service ip inside cluster
     });
 
+    let resp: AxiosResponse;
     try {
-      const resp: AxiosResponse = await axiosInstance.get('/api/auth/token');
+      resp = await axiosInstance.get('/api/auth/token');
       console.log('GET /api/auth/token succeeded with response:', resp.data);
     } catch (err) {
       console.error('GET /api/auth/token FAILED with error message: ', err.message);
-      // throw new HttpException(err.message, 500);
+      throw new HttpException(`Auth service has got some error. Error: ${err.message}`, 500);
+      // return [];
     }
 
     return this.items
