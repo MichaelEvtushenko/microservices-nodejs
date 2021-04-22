@@ -47,8 +47,8 @@ spec:
         attempts: 3
         retryOn: 5xx
         perTryTimeout: 3s
-#        retryRemoteLocalities: false
 ---
+# Circuit breaker
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
