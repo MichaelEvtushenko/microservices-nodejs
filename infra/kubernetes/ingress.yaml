@@ -20,3 +20,10 @@ spec:
                 name: auth-svc
                 port:
                   number: 8001
+          - path: /api/topics
+            pathType: Prefix
+            backend:
+              service:
+                name: topic-svc
+                port:
+                  number: 8000

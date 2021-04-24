@@ -1,8 +1,9 @@
 import { Controller, Get, HttpException } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import * as os from 'os';
+import { ApiPrefix } from '../constants';
 
-@Controller('/api/auth')
+@Controller(ApiPrefix.AUTH)
 @ApiTags('Auth')
 export class AuthController {
 

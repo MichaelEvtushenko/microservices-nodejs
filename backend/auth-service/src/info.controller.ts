@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import * as os from 'os';
 import { ApiProperty, ApiTags } from '@nestjs/swagger';
+import { ApiPrefix } from './constants';
 
 const { version, name } = require('../package.json');
 
@@ -23,13 +24,13 @@ class AppInfo {
 
 @Controller()
 @ApiTags('AppInfo')
-export class AppInfoController {
+export class InfoController {
   @Get()
   getAppInfo(): AppInfo {
     return {
       name,
       version,
-      docs: '/api/auth/api-docs',
+      docs: ApiPrefix.AUTH_DOCS,
       hostname: os.hostname(),
       localDate: new Date().toString(),
     };

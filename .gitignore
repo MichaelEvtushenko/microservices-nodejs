@@ -118,3 +118,6 @@ dist
 # idea
 .idea/
 .vscode/
+
+# k8s
+infra/kubernetes/secrets.yaml
