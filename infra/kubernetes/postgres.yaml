@@ -29,6 +29,25 @@ spec:
                 secretKeyRef:
                   name: postgres-secret
                   key: postgres_pass
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-data-vol
+      volumes:
+        - name: postgres-data-vol
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
 
 ---
 apiVersion: v1
