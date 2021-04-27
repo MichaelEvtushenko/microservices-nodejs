@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { InfoController } from './info.controller';
+import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TopicModule } from './topic/topic.module';
 
 @Module({
   imports: [
@@ -13,10 +13,10 @@ import { TopicModule } from './topic/topic.module';
       password: 'root',
       database: 'microservices_db',
       logging: true,
-      entities: ["dist/**/*.entity{.ts,.js}"],
+      entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true, // todo: set to false when deploy to prod
     }),
-    TopicModule,
+    UserModule,
   ],
   controllers: [InfoController],
   providers: [],

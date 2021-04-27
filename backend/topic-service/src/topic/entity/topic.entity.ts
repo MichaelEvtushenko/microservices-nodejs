@@ -6,6 +6,7 @@ import {
   JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  // RelationId
 } from 'typeorm';
 import { TopicRevision } from './topic-revision.entity';
 
@@ -14,8 +15,9 @@ export class Topic {
   @PrimaryGeneratedColumn()
   id: number;
 
+  // @RelationId('user')
   // @Column()
-  // authorId: string;
+  // authorId: number;
 
   @Column('text')
   title: string;
@@ -31,5 +33,5 @@ export class Topic {
   createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt?: Date;
 }
