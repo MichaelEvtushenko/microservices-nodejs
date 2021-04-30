@@ -6,7 +6,7 @@ import { CreateUserDto } from './dto';
 import { User } from './entity';
 import { LoginDto } from './dto/login.dto';
 import { LoginResponseDto } from './dto/login-response.dto';
-import { generateAccessToken } from './utils';
+import { JwtService } from '@nestjs/jwt';
 
 // todo: refactor, split into different concerned services
 export interface IUserService {
@@ -19,6 +19,7 @@ export interface IUserService {
 export class UserService implements IUserService {
   constructor(
     @InjectRepository(User) private readonly userRepo: Repository<User>,
+    private readonly jwtService: JwtService,
   ) {
   }
 
@@ -42,7 +43,7 @@ export class UserService implements IUserService {
     }
 
     return {
-      token: generateAccessToken(userByEmail.id),
+      token: this.jwtService.sign({ id: userByEmail.id }),
     };
   }
 

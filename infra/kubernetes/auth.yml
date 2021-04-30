@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: auth
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:
@@ -44,8 +44,8 @@ spec:
             host: auth-svc
       timeout: 3s # will throw a 504 error if the request hits the limit of 3s
       retries:
+        retryOn: 5xx # catch errors
         attempts: 3
-        retryOn: 5xx
         perTryTimeout: 3s
 ---
 # Circuit breaker
