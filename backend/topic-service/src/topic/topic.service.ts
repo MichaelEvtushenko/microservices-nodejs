@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Topic, TopicRevision } from './entity';
 
 export interface ITopicService {
-  createTopic(dto: CreateTopicDto): Promise<TopicDto>;
+  createTopic(authorId: number, dto: CreateTopicDto): Promise<TopicDto>;
 
   updateTopic(dto: UpdateTopicDto): Promise<TopicDto>;
 
@@ -20,7 +20,7 @@ export class TopicService implements ITopicService {
   ) {
   }
 
-  async createTopic(dto: CreateTopicDto): Promise<TopicDto> {
+  async createTopic(authorId: number, dto: CreateTopicDto): Promise<TopicDto> {
     const topicRevision = await this.topicRevisionRepo.save({
       description: dto.description,
       previousRevision: undefined,
@@ -29,6 +29,7 @@ export class TopicService implements ITopicService {
     const topic = await this.topicRepo.save({
       title: dto.title,
       latestRevision: topicRevision,
+      authorId,
     });
 
     return new TopicDto(topic, topicRevision);

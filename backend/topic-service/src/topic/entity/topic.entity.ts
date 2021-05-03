@@ -1,12 +1,11 @@
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
-  OneToOne,
-  JoinColumn,
   CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
-  // RelationId
 } from 'typeorm';
 import { TopicRevision } from './topic-revision.entity';
 
@@ -15,9 +14,8 @@ export class Topic {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // @RelationId('user')
-  // @Column()
-  // authorId: number;
+  @Column()
+  authorId: number; // reference to table users
 
   @Column('text')
   title: string;

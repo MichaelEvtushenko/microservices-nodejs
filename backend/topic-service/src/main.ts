@@ -10,10 +10,12 @@ async function bootstrap() {
     .setTitle('Topics Microservice')
     .setDescription('Allows users to manipulate topics.')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup(ApiPrefix.TOPICS_DOCS, app, document);
 
-  await app.listen(3000);
+  await app.listen(3001);
 }
+
 bootstrap();
