@@ -16,7 +16,7 @@ export class JwtGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const [bearerHeader, bearerValue] = request.headers['authorization']?.split(' ') || [];
 
-    if (!bearerHeader.startsWith('Bearer')) {
+    if (!bearerHeader?.startsWith('Bearer')) {
       return false;
     }
 

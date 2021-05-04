@@ -1,4 +1,4 @@
 export class UpdateTopicDto {
-  readonly id: string;
+  readonly id: number;
   readonly description: string;
 }

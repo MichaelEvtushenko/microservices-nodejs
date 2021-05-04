@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTopicDto, TopicDto, UpdateTopicDto } from './dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Topic, TopicRevision } from './entity';
@@ -36,9 +36,15 @@ export class TopicService implements ITopicService {
   }
 
   async updateTopic(dto: UpdateTopicDto): Promise<TopicDto> {
+    // todo: use repo pattern
+    const topicById = await this.topicRepo.findOne({ where: { id: dto.id } });
+    if (!topicById) {
+      throw new NotFoundException('Topic not found');
+    }
+
     const topicRevision = await this.topicRevisionRepo.save({
       description: dto.description,
-      previousRevision: undefined,
+      previousRevision: topicById.latestRevision,
     });
 
     await this.topicRepo.update(dto.id, {
