@@ -11,7 +11,7 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "ts-node --project tsconfig.json src/",
     "start:dev": "ts-node-dev",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/",
     "lint": "eslint \"{src}/**/*.ts\" --fix"
   },
   "dependencies": {

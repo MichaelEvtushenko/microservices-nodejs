@@ -27,3 +27,17 @@ spec:
                 name: topic-svc
                 port:
                   number: 8000
+          - path: /api/comments
+            pathType: Prefix
+            backend:
+              service:
+                name: comment-svc
+                port:
+                  number: 8000
+          - path: /api/users
+            pathType: Prefix
+            backend:
+              service:
+                name: user-svc
+                port:
+                  number: 8000

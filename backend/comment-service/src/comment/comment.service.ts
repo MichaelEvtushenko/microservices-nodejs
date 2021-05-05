@@ -45,7 +45,7 @@ export class CommentService implements ICommentService {
           event: 'new_comment',
         }));
 
-        const connection = await amqplib.connect('amqp://localhost:5672'); // todo: refactor, use singleton
+        const connection = await amqplib.connect('amqp://rabbitmq-svc:5672'); // todo: refactor, use singleton
         const channel = await connection.createChannel();
 
         await channel.assertExchange('notify', 'topic', { durable: true });

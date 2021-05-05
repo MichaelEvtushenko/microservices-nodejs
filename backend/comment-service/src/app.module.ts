@@ -7,7 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost', // todo: env var; currently set to k8s service name
+      host: 'postgres-svc', // todo: env var; currently set to k8s service name
       port: 5432,
       username: 'postgres',
       password: 'root',

@@ -3,7 +3,7 @@ import { notifyAboutNewComment } from './utils';
 
 (async () => {
   try {
-    const conn = await amqplib.connect('amqp://localhost:5672');
+    const conn = await amqplib.connect('amqp://rabbitmq-svc:5672');
     const channel = await conn.createChannel();
 
     await channel.assertExchange('notify', 'topic', { durable: true });

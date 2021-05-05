@@ -1,0 +1,20 @@
+#  todo: use job - https://kubernetes.io/docs/tasks/job/coarse-parallel-processing-work-queue/
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: email-worker-depl
+spec:
+  selector:
+    matchLabels:
+      app: email-worker
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: email-worker
+    spec:
+      containers:
+        - name: email-worker-ctr
+          image: zovirax/email-worker
+          imagePullPolicy: Always
