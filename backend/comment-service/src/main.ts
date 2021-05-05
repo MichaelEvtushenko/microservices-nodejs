@@ -8,7 +8,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Comments Microservice')
-    .setDescription('Allows users to manipulate topics.')
+    .setDescription('Allows users to manipulate comments.')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
