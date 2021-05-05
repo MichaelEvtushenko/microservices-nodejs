@@ -42,13 +42,14 @@ export class CommentService implements ICommentService {
       try {
         const content = Buffer.from(JSON.stringify({
           email,
+          event: 'new_comment',
         }));
 
         const connection = await amqplib.connect('amqp://localhost:5672'); // todo: refactor, use singleton
         const channel = await connection.createChannel();
 
         await channel.assertExchange('notify', 'topic', { durable: true });
-        await channel.publish('notify', 'new_comment', content);
+        await channel.publish('notify', 'email.new_comment', content);
       } catch (err) {
         console.error('RabbitMQ error:', err);
         throw err;
