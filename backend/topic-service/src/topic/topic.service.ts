@@ -36,8 +36,7 @@ export class TopicService implements ITopicService {
   }
 
   async updateTopic(dto: UpdateTopicDto): Promise<TopicDto> {
-    // todo: use repo pattern
-    const topicById = await this.topicRepo.findOne({ where: { id: dto.id } });
+    const topicById = await this.topicRepo.findOne({ where: { id: dto.id } }); // todo: use repo pattern
     if (!topicById) {
       throw new NotFoundException('Topic not found');
     }
