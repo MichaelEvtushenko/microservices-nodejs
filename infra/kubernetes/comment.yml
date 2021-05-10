@@ -1,3 +1,9 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: comment
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -11,13 +17,39 @@ spec:
     metadata:
       labels:
         app: comment
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: "comment"
+        vault.hashicorp.com/agent-inject-secret-ormconfig.json: "ms-labs/data/database/config"
+        vault.hashicorp.com/agent-inject-status: "update"
+        vault.hashicorp.com/agent-inject-template-ormconfig.json: |
+          {{- with secret "ms-labs/data/database/config" -}}
+          {
+            "type": "postgres",
+            "host": "postgres-svc",
+            "port": 5432,
+            "username": "{{ .Data.data.username }}",
+            "password": "{{ .Data.data.password }}",
+            "database": "microservices_db",
+            "logging": true,
+            "entities": [
+              "dist/**/*.entity{.ts,.js}"
+            ],
+            "synchronize": true
+          }
+          {{- end -}}
     spec:
+      serviceAccountName: comment
       containers:
         - name: comment-service-ctr
           image: zovirax/comment-service
           imagePullPolicy: Always
           ports:
             - containerPort: 3003
+          lifecycle:
+            postStart:
+              exec:
+                command: [ "/bin/sh", "-c", "mv /vault/secrets/ormconfig.json /opt/release/ormconfig.json" ]
 ---
 apiVersion: v1
 kind: Service

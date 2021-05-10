@@ -9,7 +9,7 @@ RUN npm run build
 
 FROM node:$TAG
 WORKDIR /opt/release
-COPY ./package*.json ./
+COPY ./package*.json ./ormconfig.json ./
 RUN npm ci --only=production
 COPY --from=build /opt/build/dist ./dist
 
