@@ -120,4 +120,4 @@ dist
 .vscode/
 
 # k8s
-infra/kubernetes/secrets.yaml
+./infra/kubernetes/secrets.yaml
