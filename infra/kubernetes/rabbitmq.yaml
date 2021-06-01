@@ -23,7 +23,6 @@ spec:
             - name: amqp
               protocol: TCP
               containerPort: 5672
-
 ---
 kind: Service
 apiVersion: v1
